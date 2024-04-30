@@ -39,12 +39,12 @@ class List(View):
         try:
             self.context["section_title"]   = "Popular Movies This Month"
             # Get movies
-            movies                          = Movie.objects.all()
+            movies                          = Movie.objects.all().order_by("-id")
 
             if request.GET and "name" in request.GET:
                 name                            = request.GET.get("name")
                 # Get movies
-                movies                          = Movie.objects.filter(name__icontains=name)
+                movies                          = Movie.objects.filter(name__icontains=name).order_by("-id")
                 self.context["section_title"]   = f"Show { movies.count() } movies"
 
             self.context["media_url"]       = settings.MEDIA_URL
@@ -143,7 +143,7 @@ class BackendSave(View):
     def get(self, request, *args, **kwargs):
         self.context["form_create"]     = FSaveJsonFile
         self.context["page_title"]      = "BE Save"
-        self.context["content_title"]   = "Save to Backend"
+        self.context["content_title"]   = "Save to Database"
         
         return render(
             request,
