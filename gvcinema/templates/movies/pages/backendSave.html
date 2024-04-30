@@ -1,0 +1,78 @@
+{% load static %}
+
+{% include "public/header.html" %}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header p-3">
+                    <h4 class="card-title">{{ content_title }}</h4>
+                </div>
+        
+                <div class="card-body">
+                    <h5 class="mb-3">Upload JSON file</h5>
+                    
+                    <form id="form-upload-json-file">
+                        <form class="" id="form-upload-json-file">
+                            {% csrf_token %}
+                    
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-12 mb-3">
+                                    <div class="">
+                                        {{ form_create.json_format }}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-sm-4 col-4">
+                                    <button class="btn btn-lg btn-light" type="submit">Upload</button>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="message-form-upload-json-file" class="mb-4"></div>
+                                </div> 
+                            </div>
+                        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "public/footer.html" %}
+
+<script>
+    xpost(
+        "form-upload-json-file",
+        "{% url 'movie:backendsave' %}",
+        function(response) {
+            if (response.is_success) {
+                console.log(response.message)
+                
+                // Form reset
+                document.getElementById(
+                    "form-upload-json-file"
+                ).reset();
+                
+                // Message success
+                message = showMessage(
+                    response.message,
+                    "success",
+                    "#message-form-upload-json-file"
+                )
+            } else {
+                console.log(response.message)
+                
+                // Message error
+                message = showMessage(
+                    response.message,
+                    "error",
+                    "#message-form-upload-json-file"
+                )
+            }
+        }
+    )
+</script>

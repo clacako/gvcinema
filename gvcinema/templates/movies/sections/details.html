@@ -1,0 +1,53 @@
+{% load static %}
+
+<a
+    href                = "javascript:void(0)"
+    style               = "text-decoration: none;"
+    class               = "text-primary"
+    data-namespace      = "{% url 'movie:list' %}"
+    data-id-response    = "#section-results"
+    onclick             = "load_page(this)"
+>
+    Back to movie list
+</a>
+
+<div class="row mt-4">
+    <h5 class="card-title mb-0">
+        Marvel's Captain America Civil War
+    </h5>
+
+    <p class="text-muted">
+        ({{ movie.mpaaRating.type }}: {{ movie.mpaaRating.label }})
+    </p>
+
+    <div class="col-12">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ media_url }}{{ movie.imgPath }}" class="img-fluid rounded-start" alt="civilwar">
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">DETAILS</h5>
+                        <p class="card-text">
+                            <strong>Genre:</strong>
+                            {% for genre in movie.genre.all %}
+                                {{ genre.name }},
+                            {% endfor %}
+                            <br>
+                            <strong>Language:</strong> {{ movie.language }} <br>
+                            <strong>Duration:</strong> {{ movie.duration }} Min <br>
+                            <strong>User Rating:</strong> 5
+                        </p>
+                        
+                        <h5 class="card-title mt-5">SYNOPSIS</h5>
+                        <p class="card-text">
+                            {{ movie.description }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

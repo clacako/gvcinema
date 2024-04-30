@@ -1,0 +1,48 @@
+{% load static %}
+
+<h5 class="mb-4">{{ section_title }}</h5>
+    
+<div class="row">
+    {% if movies %}
+        <a
+            href                = "javascript:void(0)"
+            style               = "text-decoration: none;"
+            class               = "text-primary mb-3"
+            data-namespace      = "{% url 'movie:list' %}"
+            data-id-response    = "#section-results"
+            onclick             = "load_page(this)"
+        >
+            Back to movie list
+        </a>
+
+        {% for movie in movies %}
+            <div class="col-lg-3 col-sm-3 col-6 mb-3">
+                <div class="card">
+                    <img src="{{ media_url }}{{ movie.imgPath }}" class="card-img-top img-fluid" alt="...">                    
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a
+                                href                = "javascript:void(0)"
+                                class               = "text-dark"
+                                style               = "text-decoration: none;"
+                                data-namespace      = "{% url 'movie:details' mov_exid=movie.external_id %}"
+                                data-id-response    = "#section-results"
+                                onclick             = "load_page(this)"
+                            >
+                                {{ movie.name|title }} {{ static_file }}
+                            </a>
+                        </h5>
+                        
+                        <p class="card-text mb-0">{{ movie.duration }} min</p>
+                        <p class="card-text">User rating: {{ movie.userRating }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h5 class="text-muted text-center">
+            <i>No Data Found</i>
+        </h5>
+    {% endif %}
+</div>

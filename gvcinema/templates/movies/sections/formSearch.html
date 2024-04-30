@@ -1,0 +1,55 @@
+<form id="form-search">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-lg-4 col-sm-4 col-12">
+            <div class="mt-4">
+                {{ form_search.name }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div id="message-search" class="mb-4"></div>
+        </div> 
+    </div>
+</form>
+
+<script>
+    xpost(
+        "form-search",
+        "{% url 'movie:search' %}",
+        function(response) {
+            if (response.is_success) {
+                console.log(response.message)
+                
+                // Form reset
+                document.getElementById(
+                    "form-search"
+                ).reset();
+                
+                // Message success
+                message = showMessage(
+                    response.message,
+                    "success",
+                    "#message-form-search"
+                )
+
+                ajx_load(
+                    "section-results",
+                    "{% url 'movie:list' %}?name=" + response.data
+                )
+            } else {
+                console.log(response.message)
+                
+                // Message error
+                message = showMessage(
+                    response.message,
+                    "error",
+                    "#message-form-search"
+                )
+            }
+        }
+    )
+</script>
